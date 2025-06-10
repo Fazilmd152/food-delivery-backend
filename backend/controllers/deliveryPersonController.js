@@ -211,3 +211,96 @@ export const getDeliveryPersonProfile = asyncError(async (req, res, next) => {
         delivery_person: profile
     })
 })
+
+/****
+Get all delivery persons - (/api/deliveryperson/all)
+****/
+export const getAllDeliveryPersons = asyncError(async (req, res, next) => {
+    const apiFeature = new ApiFeatures(DeliveryModel.find(), req.query)
+        .search()
+        .filter()
+        .pagination()
+
+    const deliveryPersons = await apiFeature.query
+
+    res.status(200).json({
+        success: true,
+        message: "All delivery persons retrieved successfully",
+        delivery_persons: deliveryPersons
+    })
+})
+
+
+/****
+Get delivery person by ID - (/api/deliveryperson/get/:id)
+****/
+export const getDeliveryPersonById = asyncError(async (req, res, next) => {
+    const { id } = req.params
+    const deliveryPerson = await DeliveryModel.findById(id)
+    if (!deliveryPerson)
+        return next(new ErrorHandler("Delivery person not found", 404))
+    // Exclude sensitive fields
+    const { password, otp, otpDetails, status, otpExpiry, ...profile } = deliveryPerson.toObject()
+    res.status(200).json({
+        success: true,
+        message: "Delivery person retrieved successfully",
+        delivery_person: profile
+    })
+})
+
+/****
+Delete delivery person - (/api/deliveryperson/delete/:id)
+****/
+export const deleteDeliveryPerson = asyncError(async (req, res, next) => {
+    const { id } = req.params
+    const deliveryPerson = await DeliveryModel.findByIdAndDelete(id)
+    if (!deliveryPerson)
+        return next(new ErrorHandler("Delivery person not found", 404))
+    res.status(200).json({
+        success: true,
+        message: "Delivery person deleted successfully"
+    })
+})
+
+/****
+ get delivery person coordinates - (/api/deliveryperson/track/coordinates/:id)
+****/
+export const getDeliveryPersonCoordinates = asyncError(async (req, res, next) => {
+    const { id } = req.params
+    const deliveryPerson = await DeliveryModel.findById(id)
+    if (!deliveryPerson)
+        return next(new ErrorHandler("Delivery person not found", 404))
+    if (!deliveryPerson.coordinates || !deliveryPerson.coordinates.latitude || !deliveryPerson.coordinates.longitude)
+        return next(new ErrorHandler("Delivery person coordinates not found", 404))
+    res.status(200).json({
+        success: true,
+        message: "Delivery person coordinates retrieved successfully",
+        coordinates: deliveryPerson.coordinates
+    })  
+})
+
+
+/****
+Update delivery person coordinates - (/api/deliveryperson/track/updatecoordinates)
+****/
+export const updateDeliveryPersonCoordinates = asyncError(async (req, res, next) => {
+    const { latitude, longitude } = req.body
+    const deliveryPerson = await DeliveryModel.findById(req.delivery_person._id)
+
+    if (!deliveryPerson)
+        return next(new ErrorHandler("Delivery person not found", 404))
+
+    // Update coordinates
+    deliveryPerson.coordinates = {
+        latitude,
+        longitude
+    }
+    await deliveryPerson.save()
+
+    res.status(200).json({
+        success: true,
+        message: "Delivery person coordinates updated successfully",
+        coordinates: deliveryPerson.coordinates
+    })
+})
+

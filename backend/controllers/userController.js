@@ -248,6 +248,76 @@ export const getLoggedUser = asyncError(async (req, res, next) => {
 })
 
 /****
+ * Get User Details by ID - (/api/user/auth/getuser/:id)
+****/
+export const getUserById = asyncError(async (req, res, next) => {
+    const { id } = req.params
+
+    const user = await User.findOne({
+        where: { user_id: id },
+        attributes: { exclude: ['password', 'otp', 'otpDetails', 'otpExpiry'] }
+    })
+
+    if (!user)
+        return next(new ErrorHandler("User not found", 404))
+
+    res.status(200).json({
+        success: true,
+        message: "User details retrieved successfully",
+        user
+    })
+})
+
+/****
+ get users co-ordinates - (/api/user/track/getusercoordinates/:id)
+****/
+export const getUserCoordinates = asyncError(async (req, res, next) => {
+    const { id } = req.params
+
+    const user = await User.findOne({
+        where: { user_id: id },
+        attributes: ['latitude', 'longitude']
+    })
+
+    if (!user)
+        return next(new ErrorHandler("User not found", 404))
+
+    res.status(200).json({
+        success: true,
+        message: "User coordinates retrieved successfully",
+        coordinates: {
+            latitude: user.latitude,
+            longitude: user.longitude
+        }
+    })
+})
+
+/****
+ Update User Coordinates - (/api/user/track/updatecoordinates)
+ ****/
+export const updateUserCoordinates = asyncError(async (req, res, next) => {
+    const { latitude, longitude } = req.body
+    const { user_id } = req.user
+
+    const user = await User.findOne({ where: { user_id } })
+    if (!user)
+        return next(new ErrorHandler("User not found", 404))
+
+    user.latitude = latitude || user.latitude
+    user.longitude = longitude || user.longitude
+    await user.save()
+
+    res.status(200).json({
+        success: true,
+        message: "User coordinates updated successfully",
+        coordinates: {
+            latitude: user.latitude,
+            longitude: user.longitude
+        }
+    })
+})
+
+/****
  forgot password - (/api/user/auth/forgotpassword)  
 ****/
 export const userForgotPassword = asyncError(async (req, res, next) => {

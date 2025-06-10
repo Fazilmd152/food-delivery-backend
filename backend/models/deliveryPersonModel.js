@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import validator from 'validator'
+import crypto from 'crypto'
 
 const deliveryPersonSchema = new mongoose.Schema({
     name: {
@@ -76,7 +77,9 @@ const deliveryPersonSchema = new mongoose.Schema({
     otpExpiry: {
         type: Date,
         default: null
-    }
+    },
+     resetPasswordToken: String,
+    resetPasswordExpire: Date
 }, { timestamps: true })
 
 // Enable 2dsphere index for location-based queries
@@ -101,6 +104,9 @@ deliveryPersonSchema.methods.getJwtToken = async function () {
         { expiresIn: process.env.JWT_EXPIRES_TIME }
     )
 }
+
+
+//reset password
 
 const DeliveryPerson = mongoose.model('deliveryPerson', deliveryPersonSchema)
 

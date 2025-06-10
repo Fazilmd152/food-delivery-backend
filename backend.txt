@@ -45,7 +45,9 @@ user route:
 ~ Get logged user (get)            -completed (/user/auth/getme)
 ~ Forget password (post)           -completed (/user/auth/forgotpassword) [email]
 ~ reset password (post)            -completed (/user/auth/resetpassword/:resetToken)[newPassword,confirmPassword]
-
+~ Get User Details by ID           -completed (/user/auth/getuser/:id)
+~ Get users co-ordinates           -completed (/user/auth/getusercoordinates/:id)
+~ Update User Coordinates          -completed (/user/auth/updatecoordinates)
 
 restaurant  route:
 ~ register (post)                  -completed (/restaurant/auth/register) [name,email,password,phone,image_url(optional)] ps:image upload yet to add
