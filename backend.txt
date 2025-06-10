@@ -1,0 +1,90 @@
+Backend architecture and API details
+
+
+base url=http://loclahost:8000/api
+
+middlewares:
+~ error middleware                                    -completed
+~ authenticate middleware (checks login)              -completed
+~ authorization middleware (checks role based access) -completed
+~ validation middlewares   (checks body)              -completed
+~ restaurant validation middleware (checks body)      -completed
+
+models:
+~ admin model   -completed
+~ user          -completed
+~ restaurant    -completed
+
+*arguments required from frontend=[]
+
+admin route:
+~ register (post)                  -completed (/admin/auth/register) [name,email,password,phone]
+~ login (post)                     -completed (/admin/auth/login) [email,password]
+~ login via email password (post)  -completed (/admin/auth/email/login) [email,password]
+~ login via phone and pass (post)  -completed (/admin/auth/phone/login) [phone,password]
+~ login via otp (post)             -completed (/admin/auth/otp/login) [either phone or email required]
+~ verify otp (post)                -completed (/admin/auth/otp/verify) [otp]
+~ Update name (put)                -completed (/admin/auth/update) [name]
+~ get all admin (get)              -completed (/admin/all)
+~ change password (put)            -completed (/admin/auth/changepassword) [password,newPassword,confirmPassword]
+~ logout (get)                     -completed (/admin/auth/logout) 
+~ Get logged admin (get)           -completed (/admin/auth/getme) 
+~ forget password reset mail (post)-completed (/admin/auth/forgotpassword) [email]
+~ reset password (post)            -completed (/admin/auth/resetpassword/:token) [newPassword,confirmPassword]
+
+
+user route:
+~ register (post)                  -completed (/user/auth/register) [name,email,password,phone,image_url(optional)] ps:image upload yet to add
+~ login via email password (post)  -completed (/user/auth/email/login) [email,password]
+~ login via phone and pass (post)  -completed (/user/auth/phone/login) [phone,password]
+~ login via otp (post)             -completed (/user/auth/otp/login) [either phone or email required]
+~ verify otp (post)                -completed (/user/auth/otp/verify) [otp]
+~ Update name (put)                -completed (/user/auth/update) [name]
+~ change password (put)            -completed (/user/auth/changepassword) [password,newPassword,confirmPassword]
+~ logout (get)                     -completed (/user/auth/logout)
+~ Get logged user (get)            -completed (/user/auth/getme)
+~ Forget password (post)           -completed (/user/auth/forgotpassword) [email]
+~ reset password (post)            -completed (/user/auth/resetpassword/:resetToken)[newPassword,confirmPassword]
+
+
+restaurant  route:
+~ register (post)                  -completed (/restaurant/auth/register) [name,email,password,phone,image_url(optional)] ps:image upload yet to add
+~ login via email password (post)  -completed (/restaurant/auth/email/login) [email,password]
+~ login via phone and pass (post)  -completed (/restaurant/auth/phone/login) [contact_number,password]
+~ login via otp (post)             -completed (/restaurant/auth/otp/login) [either contact_number or email required]
+~ verify otp (post)                -completed (/restaurant/auth/otp/verify) [otp]
+~ Update name (put)                -completed (/restaurant/auth/update) [name]
+~ change password (put)            -completed (/restaurant/auth/changepassword) [password,newPassword,confirmPassword]
+~ get All restaurants (get)        -completed (/restaurant/all)
+~ Get single restaurant (get)      -completed (/restaurant/:id)
+~ logout (get)                     -completed (/restaurant/auth/logout)
+~ Get logged restaurant (get)      -completed (/restaurant/auth/getme)
+~ forget password (post)           -completed (/restaurant/auth/forgotpassword)[email]
+~ reset password (post)            -completed (/restaurant/auth/resetpassword/:resetToken)[newPassword,confirmPassword]
+
+
+
+
+Menu and Food route:
+~ Add menu (post)  restaurant access -completed (/restaurant/menu/add) [restaurantId, description, type] 
+~ Add food (post) restaurant access  -completed (/api/restaurant/menu/food/add/:menuId) [name, description, price, [categories], image_url, tags, [ingredients]] 
+~ Get all menu (get)  admin access   -completed (/api/restaurant/menu/all)  
+~ Get single menu (get)              -completed (/api/restaurant/menu/:menuId)  
+~ Update menu (put)                  -completed (/api/restaurant/menu/update/:menuId)[description, type, isAvailable=boolean]  
+~ Delete menu (delete)               -completed (/api/restaurant/menu/delete/:menuId)
+~ Delete food (delete)               -completed (/api/restaurant/menu/food/delete/:foodId)
+~ all food (get)                     -completed (/api/restaurant/menu/food/all)
+~ update food (get)                  -completed (/api/restaurant/menu/food/update/:foodId)[name, description, price, [categories], [image_url], [tags], [ingredients]]
+~ get single food (get)              -completed (/api/restaurant/menu/food/foodId)
+~ get single food (put)              -completed (/api/restaurant/menu/food/update/:foodId)
+~ add existing food to menu(put)     -completed (/api/restaurant/menu/food/add/:menuId/:foodId)
+~ remove existing food from menu(put)-completed (/api/restaurant/menu/food/remove/:menuId/:foodId)
+
+ 
+delivery personal route: yet to create
+
+Order route: yet to create
+
+notifications route: yet to create
+
+payment route: yet to create

@@ -1,0 +1,27 @@
+{
+  "name": "Spicy Bites",
+  "email": "spicybites@example.com",
+  "password": "securepass123",
+  "image_url": {
+    "profile_img": "https://example.com/images/spicybites-profile.jpg",
+    "cover_img": "https://example.com/images/spicybites-cover.jpg",
+    "other_images_urls": [
+      "https://example.com/images/food1.jpg",
+      "https://example.com/images/food2.jpg"
+    ]
+  },
+  "address": "123 Main Street, Agra, Uttar Pradesh, India",
+  "location": {
+    "type": "Point",
+    "coordinates": [78.0421, 27.1751] 
+  },
+  "contact_number": "+91 9876543210",
+  "is_open": true,
+  "opening_time": "09:00 AM",
+  "closing_time": "11:00 PM",
+  "delivery_time_minutes": 25,
+  "delivery_fee": 30,
+  "average_rating": 4.5,
+  "total_reviews": 120,
+  "role": "restaurant"
+}
