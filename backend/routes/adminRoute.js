@@ -3,24 +3,28 @@ import { register, loginViaEmail, logout, loginViaPhone, loginViaOtp, verifyOtp 
 import Validation from '../libs/adminAndUserValidation.js'
 import Authorization from '../libs/Authourization.js'
 import isAuthenticate from '../middlewares/isAuthenticate.js'
+import CommonValidation from '../validations/commonValidations.js'
+import UniqueValidation from '../validations/uniqueValidation.js'
 const route = exprees.Router()
 
 const { resetPasswordVal,adminValidation: bodyValidate ,adminUpdateBodyVal:updVal,changePassVal,loginPhoneBodyVal:phoneVal,forgetPassVal} = new Validation()
-const {  admin} = new Authorization()
+const cmnVal=new CommonValidation()
+const uniVal=new UniqueValidation()
+const authorize = new Authorization()
 
 route
-    .post('/auth/register', bodyValidate("register"), register)
-    .post('/auth/email/login', bodyValidate(), loginViaEmail)
-    .post('/auth/phone/login', phoneVal(), loginViaPhone)
-    .post('/auth/otp/login', loginViaOtp)
-    .post('/auth/otp/verify', verifyOtp)
-    .put('/auth/update',isAuthenticate,admin,updVal(),updateAdmin )
-    .put('/auth/changepassword',isAuthenticate,admin,changePassVal(),changePassword)
-    .get('/all', isAuthenticate, admin, getAllAdmins)
+    .post('/auth/register', uniVal.adminRegisterVal, register)
+    .post('/auth/email/login', cmnVal.loginVal, loginViaEmail)
+    .post('/auth/phone/login', cmnVal.loginPhoneVal, loginViaPhone)
+    .post('/auth/otp/login',cmnVal.otpVal, loginViaOtp)
+    .post('/auth/otp/verify',cmnVal.otpVerifyVal, verifyOtp)
+    .put('/auth/update',isAuthenticate,admin,uniVal.adminUpdVal,updateAdmin )
+    .put('/auth/changepassword',isAuthenticate,authorize.admin,cmnVal.changePasswordVal,changePassword)
+    .get('/all', isAuthenticate,authorize.admin, getAllAdmins)
+    .get('/auth/getme',isAuthenticate,authorize.admin,getLoggedAdmin)
+    .post('auth/forgotpassword',cmnVal.forgetPassVal,adminForgetPassword)
+    .post('auth/resetpassword/:token',cmnVal.resetPasswordVal,adminResetPassword)
     .get('/auth/logout', logout)
-    .get('/auth/getme',isAuthenticate,admin,getLoggedAdmin)
-    .post('auth/forgotpassword',forgetPassVal(),adminForgetPassword)
-    .post('auth/resetpassword/:token',resetPasswordVal(),adminResetPassword)
 
 
 export default route

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 import validator from 'validator'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -70,7 +70,7 @@ const restaurantSchema = new mongoose.Schema({
             index: "2dsphere",
         },
     },
-    contact_number: {
+    phone: {
         type: String,
     },
     is_open: {

@@ -52,8 +52,8 @@ user route:
 restaurant  route:
 ~ register (post)                  -completed (/restaurant/auth/register) [name,email,password,phone,image_url(optional)] ps:image upload yet to add
 ~ login via email password (post)  -completed (/restaurant/auth/email/login) [email,password]
-~ login via phone and pass (post)  -completed (/restaurant/auth/phone/login) [contact_number,password]
-~ login via otp (post)             -completed (/restaurant/auth/otp/login) [either contact_number or email required]
+~ login via phone and pass (post)  -completed (/restaurant/auth/phone/login) [phone,password]
+~ login via otp (post)             -completed (/restaurant/auth/otp/login) [either phone or email required]
 ~ verify otp (post)                -completed (/restaurant/auth/otp/verify) [otp]
 ~ Update name (put)                -completed (/restaurant/auth/update) [name]
 ~ change password (put)            -completed (/restaurant/auth/changepassword) [password,newPassword,confirmPassword]

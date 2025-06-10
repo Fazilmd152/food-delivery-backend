@@ -12,13 +12,13 @@ const apiFeature = new ApiFeatures()
 Register restaurant - (/api/restaurant/auth/register)
 ****/
 export const registerRetaurant = asyncError(async (req, res, next) => {
-    const { name, email, password, address, contact_number, categories } = req.body
+    const { name, email, password, address, phone, categories } = req.body
     //checking if there's restaurant already with this credential 
-    const isExist = await RestModel.findOne({ $or: [{ email }, { contact_number }] })
+    const isExist = await RestModel.findOne({ $or: [{ email }, { phone }] })
     if (isExist)
         next(new ErrorHandler("Restaurant Already Exists with this credentials,please try later"))
 
-    const restaurant = await RestModel.create({ name, email, password, address, contact_number, categories })
+    const restaurant = await RestModel.create({ name, email, password, address, phone, categories })
     if (!restaurant)
         next(new ErrorHandler("There's a problem creating restaurant,please try later"))
 
@@ -30,25 +30,25 @@ export const registerRetaurant = asyncError(async (req, res, next) => {
 Login restaurant - (/api/restaurant/auth/login)
 ****/
 export const loginViaEmail = asyncError(async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body
 
-    const restaurant = await RestModel.findOne({ email }).select('+password');
+    const restaurant = await RestModel.findOne({ email }).select('+password')
     if (!restaurant)
-        return next(new ErrorHandler("Invalid Email or Password", 400));
+        return next(new ErrorHandler("Invalid Email or Password", 400))
 
     const isMatch = await restaurant.isValidPassword(password);
     if (!isMatch)
-        return next(new ErrorHandler("Invalid Email or Password", 400));
+        return next(new ErrorHandler("Invalid Email or Password", 400))
 
-    sendCookie(res, restaurant, "restaurant");
-});
+    sendCookie(res, restaurant, "restaurant")
+})
 
 
 /****
 Login restaurant using phone - (/api/restaurant/auth/phone/login)
 ****/
 export const loginViaPhone = asyncError(async (req, res, next) => {
-    const { phone, password } = req.body;
+    const { phone, password } = req.body
 
     const restaurant = await RestModel.findOne({ phone }).select('+password');
     if (!restaurant)
@@ -59,7 +59,7 @@ export const loginViaPhone = asyncError(async (req, res, next) => {
         return next(new ErrorHandler("Invalid Email or Password", 400));
 
     sendCookie(res, restaurant, "restaurant");
-});
+})
 
 
 /****
