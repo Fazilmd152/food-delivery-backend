@@ -1,6 +1,6 @@
 import exprees from 'express'
 import { register, loginViaEmail, logout, loginViaPhone, loginViaOtp, verifyOtp ,updateAdmin,changePassword, getAllAdmins, getLoggedAdmin, adminForgetPassword, adminResetPassword} from '../controllers/adminController.js'
-import Authorization from '../libs/Authourization.js'
+import Authorization from '../authourize/Authourization.js'
 import isAuthenticate from '../middlewares/isAuthenticate.js'
 import CommonValidation from '../validations/commonValidations.js'
 import UniqueValidation from '../validations/uniqueValidation.js'

@@ -1,7 +1,7 @@
 import express from 'express'
 import { changePassword, getAllUsers, getAllUsersCount, getLoggedUser, getUserById, getUserCoordinates, loginViaMail, loginViaOtp, loginViaphone, logout, register, updateUser, updateUserCoordinates, userForgotPassword, userResetPassword, verifyOtp } from '../controllers/userController.js'
 import isAuthenticate from '../middlewares/isAuthenticate.js'
-import Authorization from '../libs/Authourization.js'
+import Authorization from '../authourize/Authourization.js'
 import UniqueValidation from '../validations/uniqueValidation.js'
 import CommonValidation from '../validations/commonValidations.js'
 

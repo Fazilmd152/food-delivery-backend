@@ -1,12 +1,11 @@
 import express from 'express'
 import { registerRetaurant, loginViaEmail, logoutRetaurant, loginViaPhone, loginViaOtp, verifyOtp, updateRestaurant, getAllRestaurants, getRestaurant, getLoggedRestaurant, restaurantForgotPassword, restaurantResetPassword } from '../controllers/restaurantController.js'
-import RestaurantValidation from '../libs/restaurantBodyValidation.js'
 import isAuthenticate from '../middlewares/isAuthenticate.js'
-import Authorization from '../libs/Authourization.js'
+import Authorization from '../authourize/Authourization.js'
 import UniqueValidation from '../validations/uniqueValidation.js'
 import CommonValidation from '../validations/commonValidations.js'
 
-const { registerVal, loginVal, forgetPassVal, resetPasswordVal, UpdateBodyVal, loginPhoneBodyVal: phoneVal, otpValidation, otpVerifyValidation } = new RestaurantValidation()
+
 const route = express.Router()
 
 //validation and authorization class instance
