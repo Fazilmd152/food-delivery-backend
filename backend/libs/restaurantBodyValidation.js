@@ -8,8 +8,8 @@ class HotelValidation {
       .isLength({ min: 5 }).withMessage("Name must be at least 5 characters long")
       .customSanitizer(value => value.toLowerCase()).trim(),
 
-    body("contact_number")
-      .notEmpty().withMessage("Contact number is required")
+    body("phone")
+      .notEmpty().withMessage("Phone number is required")
       .isLength({ min: 10 }).withMessage("Contact number must be 10 characters")
       .customSanitizer(value => value.toLowerCase()).trim(),
 
@@ -71,7 +71,6 @@ class HotelValidation {
 
   UpdateBodyVal = [
     body("name").optional().customSanitizer(value => value.toLowerCase()).trim(),
-
     (req, res, next) => {
       const error = validationResult(req)
       if (!error.isEmpty()) {

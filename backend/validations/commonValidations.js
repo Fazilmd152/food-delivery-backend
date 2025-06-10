@@ -177,6 +177,25 @@ class CommonValidation {
             next()
         }
     ]
+
+     updateCoordinatesVal = [
+        body("latitude")
+            .notEmpty().withMessage("Latitude is required")
+            .isNumeric().withMessage("Latitude must be a number")
+            .trim(),
+        body("longitude")
+            .notEmpty().withMessage("Longitude is required")
+            .isNumeric().withMessage("Longitude must be a number")
+            .trim(),
+        (req, res, next) => {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                const [err] = errors.array()
+                return next(new ErrorHandler(err.msg, 400))
+            }
+            next()
+        }
+    ]
 }
 
 export default CommonValidation

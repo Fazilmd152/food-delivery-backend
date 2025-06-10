@@ -1,13 +1,14 @@
 import exprees from 'express'
 import { register, loginViaEmail, logout, loginViaPhone, loginViaOtp, verifyOtp ,updateAdmin,changePassword, getAllAdmins, getLoggedAdmin, adminForgetPassword, adminResetPassword} from '../controllers/adminController.js'
-import Validation from '../libs/adminAndUserValidation.js'
 import Authorization from '../libs/Authourization.js'
 import isAuthenticate from '../middlewares/isAuthenticate.js'
 import CommonValidation from '../validations/commonValidations.js'
 import UniqueValidation from '../validations/uniqueValidation.js'
+
+
 const route = exprees.Router()
 
-const { resetPasswordVal,adminValidation: bodyValidate ,adminUpdateBodyVal:updVal,changePassVal,loginPhoneBodyVal:phoneVal,forgetPassVal} = new Validation()
+//validation and authorization class instance
 const cmnVal=new CommonValidation()
 const uniVal=new UniqueValidation()
 const authorize = new Authorization()
@@ -18,7 +19,7 @@ route
     .post('/auth/phone/login', cmnVal.loginPhoneVal, loginViaPhone)
     .post('/auth/otp/login',cmnVal.otpVal, loginViaOtp)
     .post('/auth/otp/verify',cmnVal.otpVerifyVal, verifyOtp)
-    .put('/auth/update',isAuthenticate,admin,uniVal.adminUpdVal,updateAdmin )
+    .put('/auth/update',isAuthenticate,authorize.admin,uniVal.adminUpdVal,updateAdmin )
     .put('/auth/changepassword',isAuthenticate,authorize.admin,cmnVal.changePasswordVal,changePassword)
     .get('/all', isAuthenticate,authorize.admin, getAllAdmins)
     .get('/auth/getme',isAuthenticate,authorize.admin,getLoggedAdmin)
