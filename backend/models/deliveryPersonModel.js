@@ -107,6 +107,13 @@ deliveryPersonSchema.methods.getJwtToken = async function () {
 
 
 //reset password
+deliveryPersonSchema.methods.getResetPasswordToken = function () {
+    // Generate a token
+    const resetToken = crypto.randomBytes(20).toString('hex')
+    this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex')
+    this.resetPasswordExpire = Date.now() + 30 * 60 * 1000 // 30 minutes
+    return resetToken
+}
 
 const DeliveryPerson = mongoose.model('deliveryPerson', deliveryPersonSchema)
 

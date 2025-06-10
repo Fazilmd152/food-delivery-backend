@@ -3,6 +3,7 @@ import ApiFeatures from "../utils/ApiFeatures.js";
 import sendCookie from "../utils/jwt.js";
 import asyncError from "../utils/asyncError.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
+import sendEmail from "../utils/sendEmail.js";
 
 const apiFeature = new ApiFeatures()
 
@@ -209,6 +210,72 @@ export const getDeliveryPersonProfile = asyncError(async (req, res, next) => {
         success: true,
         message: "Delivery person profile retrieved successfully",
         delivery_person: profile
+    })
+})
+
+
+/****
+ Reset delivery person password - (/api/deliveryperson/auth/resetpassword/:token) 
+ ****/
+export const resetDeliveryPersonPassword = asyncError(async (req, res, next) => {
+    const { token } = req.params
+    const { newPassword } = req.body
+
+    // Validate token
+    const resetPasswordToken = crypto.createHash('sha256').update(token).digest('hex')
+    const deliveryPerson = await DeliveryModel.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    })
+    if (!deliveryPerson)
+        return next(new ErrorHandler("Invalid or expired reset password token", 400))
+    // Update password
+    deliveryPerson.password = newPassword
+    deliveryPerson.resetPasswordToken = undefined
+    deliveryPerson.resetPasswordExpire = undefined
+    await deliveryPerson.save()
+    res.status(200).json({
+        success: true,
+        message: "Password reset successfully. You can now login with your new password"
+    })
+})
+
+
+
+/****
+ forgot password - (/api/deliveryperson/auth/forgotpassword)
+****/
+export const forgotDeliveryPersonPassword = asyncError(async (req, res, next) => {
+    const { email, phone } = req.body
+
+    if (email) req.body.phone = undefined
+    if (phone) req.body.email = undefined
+
+    const condition = {}
+    if (email) condition.email = email
+    else if (phone) condition.phone = phone
+
+    const deliveryPerson = await DeliveryModel.findOne(condition)
+    if (!deliveryPerson)
+        return next(new ErrorHandler("Delivery person not found with this email or phone", 404))
+
+    const resetToken = deliveryPerson.getResetPasswordToken()
+    await deliveryPerson.save()
+
+    // Send reset password link via email
+    const resetUrl = `${req.protocol}://${req.get('host')}/api/deliveryperson/auth/resetpassword/${resetToken}`
+    const result = await sendEmail({
+        email: deliveryPerson.email,
+        subject: "Reset Password",
+        message: `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl} \n\n If you did not request this, please ignore this email.`
+    })
+
+    if (!result)
+        return next(new ErrorHandler("Failed to send reset password email. Please try again later", 500))
+
+    res.status(200).json({
+        success: true,
+        message: "Reset password link sent to your registered email"
     })
 })
 
