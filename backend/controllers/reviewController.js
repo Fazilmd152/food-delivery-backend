@@ -7,7 +7,7 @@ import ErrorHandler from "../utils/ErrorHandler.js"
 /****
 Get all reviews  -
 (/api/restaurant/review/all/:id?model=restaurant)
-(/api/food/review/all/:id?model=food)
+(/api/restaurant/menu/food/review/all/:id?model=food)
 (/api/deliveryPerson/review/all/:id?model=deliveryPerson)
 ****/
 export const getAllReviews = asyncError(async (req, res, next) => {
@@ -206,14 +206,13 @@ export const updateReview = asyncError(async (req, res, next) => {
 /****
 Delete restaurant review - (/api/restaurant/review/delete/:id)
 ****/
-export const deleteRestaurantReview = asyncError(async (req, res, next) => {
+export const deleteReview = asyncError(async (req, res, next) => {
     const reviewId = req.params.id
-    const userId = req.restaurant._id
+    const userId = req.user.id
 
     const review = ReviewModel.findOneAndDelete({
         _id: reviewId,
         userId: userId,
-        review_for_model: 'restaurant'
     })
 
     if (!review)

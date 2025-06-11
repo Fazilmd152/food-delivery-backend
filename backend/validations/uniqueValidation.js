@@ -270,7 +270,7 @@ class UniqueValidation {
         }
     ]
 
-    deliveryPersonRegVal=[
+    deliveryPersonRegVal = [
         body("name")
             .notEmpty().withMessage("Name is required")
             .isLength({ min: 5 }).withMessage("Name must be at least 5 characters long")
@@ -290,10 +290,10 @@ class UniqueValidation {
             .notEmpty().withMessage("Password is required")
             .isLength({ min: 5 }).withMessage("Password must be at least 5 characters")
             .customSanitizer(value => value.toLowerCase()).trim(),
-             body('vehicleType')
-      .trim()
-      .toLowerCase()
-      .not().isEmpty().withMessage('Vehicle type is required'),
+        body('vehicleType')
+            .trim()
+            .toLowerCase()
+            .not().isEmpty().withMessage('Vehicle type is required'),
         body('vehicleNumber')
             .trim()
             .not().isEmpty().withMessage('Vehicle number is required')
@@ -309,7 +309,7 @@ class UniqueValidation {
         }
     ]
 
-    deliveryPersonUpdateVAl=[
+    deliveryPersonUpdateVAl = [
         body("name")
             .optional().customSanitizer(value => value.toLowerCase()).trim(),
         body('vehicleType')
@@ -323,6 +323,46 @@ class UniqueValidation {
             .not().isEmpty().withMessage('Vehicle number is required')
             .isLength({ min: 5, max: 15 }).withMessage('Vehicle number must be between 5 and 15 characters'),
 
+        (req, res, next) => {
+            const error = validationResult(req)
+            if (!error.isEmpty()) {
+                const [err] = error.array()
+                return next(new ErrorHandler(err.msg, 400))
+            }
+            next()
+        }
+    ]
+
+    addReviewVal = [
+        body("rating")
+            .notEmpty().withMessage("Rating is required")
+            .isNumeric().withMessage("Rating must be a number")
+            .isInt({ min: 1, max: 5 }).withMessage("Rating must be between 1 and 5"),
+
+        body("comment")
+            .notEmpty().withMessage("Comment is required")
+            .isLength({ min: 5 }).withMessage("Comment must be at least 5 characters")
+            .customSanitizer(value => value.toLowerCase()).trim(),
+        (req, res, next) => {
+            const error = validationResult(req)
+            if (!error.isEmpty()) {
+                const [err] = error.array()
+                return next(new ErrorHandler(err.msg, 400))
+            }
+            next()
+        }
+    ]
+
+    updateReviewVal = [
+       body("rating")
+            .optional()
+            .isNumeric().withMessage("Rating must be a number")
+            .isInt({ min: 1, max: 5 }).withMessage("Rating must be between 1 and 5"),
+
+        body("comment")
+            .optional()
+            .isLength({ min: 5 }).withMessage("Comment must be at least 5 characters")
+            .customSanitizer(value => value.toLowerCase()).trim(),
         (req, res, next) => {
             const error = validationResult(req)
             if (!error.isEmpty()) {

@@ -5,6 +5,7 @@ import Authorization from '../authourize/Authourization.js'
 import UniqueValidation from '../validations/uniqueValidation.js'
 import CommonValidation from '../validations/commonValidations.js'
 import { changeDeliveryPersonPassword, deleteDeliveryPerson, forgotDeliveryPersonPassword, getAllDeliveryPersons, getDeliveryPersonById, getDeliveryPersonCoordinates, getDeliveryPersonProfile, loginViaEmail, loginViaOtp, loginViaPhone, registerDeliveryPerson, resetDeliveryPersonPassword, updateDeliveryPersonCoordinates, updateDeliveryPersonProfile, verifyOtp } from '../controllers/deliveryPersonController.js'
+import { addReview, deleteReview, getAllReviews, getReviewById, updateReview } from '../controllers/reviewController.js'
 
 
 const route = express.Router()
@@ -29,5 +30,11 @@ route.post('/auth/register', uniVal.deliveryPersonRegVal, uniVal.deliveryPersonR
     .get('/delete/:id', isAuthenticate, authorize.admin, deleteDeliveryPerson)
     .get('/track/coordinates/:id', isAuthenticate, getDeliveryPersonCoordinates)
     .get('/track/updatecoordinates', isAuthenticate, authorize.deliveryPerson, updateDeliveryPersonCoordinates)
+    .post('/review/add',isAuthenticate,authorize.user,uniVal.addReviewVal,addReview)
+    .put('/review/update/:id',isAuthenticate,authorize.user,uniVal.updateReviewVal,updateReview)
+    .get('/review/:id',isAuthenticate,getReviewById)
+    .get('/review/all/:id',isAuthenticate,getAllReviews)
+    .delete('/review/delete/:id',isAuthenticate,authorize.user,deleteReview)
+
 
 export default route

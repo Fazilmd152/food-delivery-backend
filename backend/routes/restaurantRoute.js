@@ -4,6 +4,7 @@ import isAuthenticate from '../middlewares/isAuthenticate.js'
 import Authorization from '../authourize/Authourization.js'
 import UniqueValidation from '../validations/uniqueValidation.js'
 import CommonValidation from '../validations/commonValidations.js'
+import { addReview, deleteReview, getAllReviews, getReviewById, updateReview } from '../controllers/reviewController.js'
 
 
 const route = express.Router()
@@ -25,5 +26,11 @@ route.post('/auth/register', uniVal.RestaurantRegVal, registerRetaurant)
      .post('/auth/forgotpassword', cmnVal.forgetPassVal, restaurantForgotPassword)
      .post('/auth/resetpassword/:resetToken', cmnVal.resetPasswordVal, restaurantResetPassword)
      .get('/auth/logout', logoutRetaurant)
+     .post('/review/add', isAuthenticate, authorize.user, uniVal.addReviewVal, addReview)
+     .put('/review/update/:id', isAuthenticate, authorize.user, uniVal.updateReviewVal, updateReview)
+     .get('/review/:id', isAuthenticate, getReviewById)
+     .get('/review/all/:id', isAuthenticate, getAllReviews)
+     .delete('/review/delete/:id', isAuthenticate, authorize.user, deleteReview)
+
 
 export default route
