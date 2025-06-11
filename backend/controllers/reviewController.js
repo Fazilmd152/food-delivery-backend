@@ -1,6 +1,6 @@
 import ReviewModel from "../models/reviewModel.js"
 import User from "../models/userModel.js"
-import asyncError from "../middlewares/asyncError.js"
+import asyncError from "../utils/asyncError.js"
 import ErrorHandler from "../utils/ErrorHandler.js"
 
 
