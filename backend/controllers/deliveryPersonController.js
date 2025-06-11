@@ -11,7 +11,7 @@ const apiFeature = new ApiFeatures()
 Register delivery person - (/api/deliveryperson/auth/register)
 ****/
 export const registerDeliveryPerson = asyncError(async (req, res, next) => {
-    const { name, email, phone, password, vehicleType ,vehicleNumber} = req.body
+    const { name, email, phone, password, vehicleType ,vehicleNumber,vehicleDetails,drivingLicenseNo} = req.body
 
     // Check if delivery person already exists
     const existingDeliveryPerson = await DeliveryModel.findOne({
@@ -21,7 +21,7 @@ export const registerDeliveryPerson = asyncError(async (req, res, next) => {
         return next(new ErrorHandler("Delivery person already exists with this email or phone", 400))
     // Create new delivery person
     const deliveryPerson = await DeliveryModel.create({
-        name, email, phone, password, vehicleType,vehicleNumber
+        name, email, phone, password, vehicleType,vehicleNumber,vehicleDetails,drivingLicenseNo
     })
     if (!deliveryPerson)
         return next(new ErrorHandler("Failed to create delivery person", 500))

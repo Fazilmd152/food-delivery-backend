@@ -29,7 +29,7 @@ route.post('/auth/register', uniVal.deliveryPersonRegVal, uniVal.deliveryPersonR
     .get('/get/:id', isAuthenticate, getDeliveryPersonById)
     .get('/delete/:id', isAuthenticate, authorize.admin, deleteDeliveryPerson)
     .get('/track/coordinates/:id', isAuthenticate, getDeliveryPersonCoordinates)
-    .get('/track/updatecoordinates', isAuthenticate, authorize.deliveryPerson, updateDeliveryPersonCoordinates)
+    .put('/track/updatecoordinates', isAuthenticate, authorize.deliveryPerson, updateDeliveryPersonCoordinates)
     .post('/review/add',isAuthenticate,authorize.user,uniVal.addReviewVal,addReview)
     .put('/review/update/:id',isAuthenticate,authorize.user,uniVal.updateReviewVal,updateReview)
     .get('/review/:id',isAuthenticate,getReviewById)

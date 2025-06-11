@@ -298,7 +298,16 @@ class UniqueValidation {
             .trim()
             .not().isEmpty().withMessage('Vehicle number is required')
             .isLength({ min: 5, max: 15 }).withMessage('Vehicle number must be between 5 and 15 characters'),
+        body("vehicleDetails")
+            .notEmpty().withMessage("Vehicle details are required")
+            .isString().withMessage("Vehicle details must be a string")
+            .trim(),
 
+        body("drivingLicenseNo")
+            .notEmpty().withMessage("Driving license number is required")
+            .isString().withMessage("Driving license number must be a string")
+            .matches(/^[A-Za-z0-9]+$/).withMessage("Driving license number can only contain alphanumeric characters")
+            .trim(),
         (req, res, next) => {
             const error = validationResult(req)
             if (!error.isEmpty()) {
@@ -354,7 +363,7 @@ class UniqueValidation {
     ]
 
     updateReviewVal = [
-       body("rating")
+        body("rating")
             .optional()
             .isNumeric().withMessage("Rating must be a number")
             .isInt({ min: 1, max: 5 }).withMessage("Rating must be between 1 and 5"),

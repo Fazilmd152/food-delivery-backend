@@ -63,6 +63,11 @@ restaurant  route:
 ~ Get logged restaurant (get)      -completed (/restaurant/auth/getme)
 ~ forget password (post)           -completed (/restaurant/auth/forgotpassword)[email]
 ~ reset password (post)            -completed (/restaurant/auth/resetpassword/:resetToken)[newPassword,confirmPassword]
+~ Get all reviews (get)            -completed (/api/restaurant/review/all/:id?model=restaurant) id=restaurant id
+~ Add review (post)                -completed (/api/restaurant/review/add?model=restaurant) 
+~ get single review (get)          -completed (/api/restaurant/review/:id) id=review id
+~ update review (put)              -completed (/api/restaurant/review/update/:id ) id=review id
+~ delete review (delete)           -completed (/api/restaurant/review/delete/:id) id=review id
 
 
 
@@ -81,9 +86,34 @@ Menu and Food route:
 ~ get single food (put)              -completed (/api/restaurant/menu/food/update/:foodId)
 ~ add existing food to menu(put)     -completed (/api/restaurant/menu/food/add/:menuId/:foodId)
 ~ remove existing food from menu(put)-completed (/api/restaurant/menu/food/remove/:menuId/:foodId)
+~ Get all reviews (get)              -completed (/api/restaurant/menu/food/review/all/:id?model=food) id=food id
+~ Add review (post)                  -completed (/api/restaurant/menu/food/review/add?model=food) 
+~ get single review (get)            -completed (/api/restaurant/menu/food/review/:id) id=review id
+~ update review (put)                -completed (/api/restaurant/menu/food/review/update/:id ) id=review id
+~ delete review (delete)             -completed (/api/restaurant/menu/food/review/delete/:id) id=review id
 
  
 delivery personal route:completed
+~ Register delivery person (post)             -completed (/api/deliveryperson/auth/register) [name, email, phone, password, vehicleType ,vehicleNumber,vehicleDetails,drivingLicenseNo]
+~ Login via email (post)                      -completed (/api/deliveryperson/auth/email/login) [email, password]
+~ Login via OTP (post)                        -completed (/api/deliveryperson/auth/otp/login) [either phone or email]
+~ Verify OTP (post)                           -completed (/api/deliveryperson/auth/otp/verify) [otp]
+~ Login via phone (post)                      -completed (/api/deliveryperson/auth/phone/login) [phone, password]
+~ Update profile (put) delivery access        -completed (/api/deliveryperson/profile/update) [name, phone, email, ...]
+~ Change password (post) delivery access      -completed (/api/deliveryperson/auth/changepassword) [oldPassword, newPassword]
+~ Get profile (get) delivery access           -completed (/api/deliveryperson/auth/getme)
+~ Forgot password (post)                      -completed (/api/deliveryperson/auth/forgotpassword) [email]
+~ Reset password (post)                       -completed (/api/deliveryperson/auth/resetpassword/:resetToken) [newPassword]
+~ Get all delivery persons (get) admin access -completed (/api/deliveryperson/all)
+~ Get delivery person by ID (get)             -completed (/api/deliveryperson/get/:id)
+~ Delete delivery person (get) admin access   -completed (/api/deliveryperson/delete/:id)
+~ Get coordinates (get) delivery access       -completed (/api/deliveryperson/track/coordinates/:id)
+~ Update coordinates (put) delivery access    -completed (/api/deliveryperson/track/updatecoordinates) [longitude,latitude]
+~ Get all reviews (get)                       -completed (/api/deliveryperson/review/all/:id?model=deliveryPerson) id=deliveryPerson id
+~ Add review (post)                           -completed (/api/deliveryperson/review/add?model=deliveryPerson) 
+~ get single review (get)                     -completed (/api/deliveryperson/review/:id) id=review id
+~ update review (put)                         -completed (/api/review/update/:id ) id=review id
+~ delete review (delete)                      -completed (/api//review/delete/:id) id=review id
 
 Order route: yet to create
 
