@@ -4,6 +4,29 @@ import jwt from 'jsonwebtoken'
 import validator from 'validator'
 import crypto from 'crypto'
 
+const addressSchema = new mongoose.Schema({
+    address: {
+        type: String,
+        required: [true, "Please provide address"]
+    },
+    pinCode: {
+        type: String,
+        required: [true, "Please provide pin code"]
+    },
+    city: {
+        type: String,
+        required: [true, "Please provide city"]
+    },
+    state: {
+        type: String,
+        required: [true, "Please provide state"]
+    },
+    country: {
+        type: String,
+        required: [true, "Please provide country"]
+    }
+})
+
 const deliveryPersonSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -33,6 +56,7 @@ const deliveryPersonSchema = new mongoose.Schema({
         type: String, // URL or file path
         default: '',  // optional
     },
+    address: addressSchema,
     isAvailable: {
         type: Boolean,
         default: true,
@@ -52,10 +76,35 @@ const deliveryPersonSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'order',
     }],
+    averageRating: {
+        type: Number,
+        default: 0,
+    },
+    total_reviews: {
+        type: Number,
+        default: 0,
+    },
     vehicleType: {
         type: String,
         enum: ['bike', 'car', 'scooter', 'bicycle'],
         required: true,
+    },
+    vehicleNumber: {
+        type: String,
+        required: [true, 'Please enter vehicle number'],
+        unique: true,
+        trim: true,
+        match: [/^[A-Z0-9-]+$/, 'Please enter a valid vehicle number'],
+    },
+    vehicleDetails: {
+        type: String, // e.g., "Red Honda Activa 5G"
+        default: null
+    },
+    drivingLicenseNo: {
+        type: String,
+        required: [true, "Please provide driving license number"],
+        unique: true,
+        trim: true
     },
     role: {
         type: String,
@@ -78,7 +127,7 @@ const deliveryPersonSchema = new mongoose.Schema({
         type: Date,
         default: null
     },
-     resetPasswordToken: String,
+    resetPasswordToken: String,
     resetPasswordExpire: Date
 }, { timestamps: true })
 

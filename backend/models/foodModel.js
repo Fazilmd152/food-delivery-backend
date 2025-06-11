@@ -38,7 +38,7 @@ const foodSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    numOfReviews: {
+    total_reviews: {
         type: Number,
         default: 0
     },
@@ -49,6 +49,10 @@ const foodSchema = new mongoose.Schema({
     ingredients: {
         type: [String], // e.g., ["Cheese", "Tomato", "Basil"]
         default: []
+    },
+    role: {
+        type: String,
+        default: "food"
     }
 }, { timestamps: true })
 

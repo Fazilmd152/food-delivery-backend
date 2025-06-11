@@ -85,7 +85,7 @@ const restaurantSchema = new mongoose.Schema({
         type: String,
         default: "10:00 PM",
     },
-    average_rating: {
+    averageRating: {
         type: Number,
         default: 0,
     },

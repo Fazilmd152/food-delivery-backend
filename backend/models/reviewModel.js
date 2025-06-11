@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 
 const reviewSchema = new mongoose.Schema({
-    review_for_id: {
+    reviewedEntityId : {
         type: mongoose.Schema.Types.ObjectId,
         required: [true, "Please provide id of food, restaurant or delivery person for which review is being made"],
         refPath: 'review_for_model'
@@ -29,7 +29,7 @@ const reviewSchema = new mongoose.Schema({
         ref: 'user'
     }
 
-},{ timestamps: true })
+}, { timestamps: true })
 
 const ReviewModel = mongoose.model("review", reviewSchema)
 export default ReviewModel

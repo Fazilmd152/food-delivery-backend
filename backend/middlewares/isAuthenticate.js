@@ -46,8 +46,8 @@ async function isAuthenticate(req, res, next) {
     //Delivery partner table
     if (delivery_personAuth && !userAuth && !adminAuth && !restaurantAuth) {
         const deliveryPerson = await DeliveryModel.findOne({ email })
-        if (restaurant) {
-            req.delivery_person = deliveryPerson
+        if (deliveryPerson) {
+            req.deliveryPerson = deliveryPerson
             return next()
         }
     }

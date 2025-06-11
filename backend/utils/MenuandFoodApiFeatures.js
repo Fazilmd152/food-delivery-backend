@@ -47,6 +47,7 @@ class MenuAndFoodApiFeatures {
             }))
             ratingFilter = { $or: ratingQueries }
             delete queryCopy.rating // Remove rating to avoid conflict
+        console.log(ratingFilter)
         }
 
         if (queryCopy.price && typeof queryCopy.price === 'string') {

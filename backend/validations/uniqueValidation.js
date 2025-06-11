@@ -269,6 +269,69 @@ class UniqueValidation {
             next()
         }
     ]
+
+    deliveryPersonRegVal=[
+        body("name")
+            .notEmpty().withMessage("Name is required")
+            .isLength({ min: 5 }).withMessage("Name must be at least 5 characters long")
+            .customSanitizer(value => value.toLowerCase()).trim(),
+
+        body("phone")
+            .notEmpty().withMessage("Phone number is required")
+            .isMobilePhone().withMessage("Invalid phone number. Phone number must be 10 characters")
+            .customSanitizer(value => value.toLowerCase()).trim(),
+
+        body("email")
+            .notEmpty().withMessage("Email is required")
+            .isEmail().withMessage("Valid email is required")
+            .customSanitizer(value => value.toLowerCase()).trim(),
+
+        body("password")
+            .notEmpty().withMessage("Password is required")
+            .isLength({ min: 5 }).withMessage("Password must be at least 5 characters")
+            .customSanitizer(value => value.toLowerCase()).trim(),
+             body('vehicleType')
+      .trim()
+      .toLowerCase()
+      .not().isEmpty().withMessage('Vehicle type is required'),
+        body('vehicleNumber')
+            .trim()
+            .not().isEmpty().withMessage('Vehicle number is required')
+            .isLength({ min: 5, max: 15 }).withMessage('Vehicle number must be between 5 and 15 characters'),
+
+        (req, res, next) => {
+            const error = validationResult(req)
+            if (!error.isEmpty()) {
+                const [err] = error.array()
+                return next(new ErrorHandler(err.msg, 400))
+            }
+            next()
+        }
+    ]
+
+    deliveryPersonUpdateVAl=[
+        body("name")
+            .optional().customSanitizer(value => value.toLowerCase()).trim(),
+        body('vehicleType')
+            .optional()
+            .trim()
+            .toLowerCase()
+            .not().isEmpty().withMessage('Vehicle type is required'),
+        body('vehicleNumber')
+            .optional()
+            .trim()
+            .not().isEmpty().withMessage('Vehicle number is required')
+            .isLength({ min: 5, max: 15 }).withMessage('Vehicle number must be between 5 and 15 characters'),
+
+        (req, res, next) => {
+            const error = validationResult(req)
+            if (!error.isEmpty()) {
+                const [err] = error.array()
+                return next(new ErrorHandler(err.msg, 400))
+            }
+            next()
+        }
+    ]
 }
 
 export default UniqueValidation

@@ -1,9 +1,11 @@
 import RestModel from "../models/restaurantModel.js";
+import ReviewModel from "../models/reviewModel.js";
+import User from "../models/userModel.js";
 import ApiFeatures from "../utils/ApiFeatures.js";
 import asyncError from "../utils/asyncError.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import sendCookie from "../utils/jwt.js";
-import RestaurantApiFeatures from "../utils/RestaurantApiFeatures.js";
+import RestaurantApiFeatures from "../utils/MenuandFoodApiFeatures.js";
 import sendEmail from "../utils/sendEmail.js";
 
 const apiFeature = new ApiFeatures()
@@ -114,7 +116,7 @@ export const loginViaOtp = asyncError(async (req, res, next) => {
             ? `OTP sent to your registered email ${masked} with this Number`
             : "OTP sent to your registered email")
     });
-});
+})
 
 
 /****
@@ -139,7 +141,7 @@ export const verifyOtp = asyncError(async (req, res, next) => {
     await restaurant.save();
 
     sendCookie(res, restaurant, "restaurant")
-});
+})
 
 
 /****
@@ -161,7 +163,7 @@ export const updateRestaurant = asyncError(async (req, res, next) => {
         message: "Restaurant has been updated",
         updateRestaurant
     });
-});
+})
 
 
 /****
@@ -217,11 +219,11 @@ Get single restaurants - (/api/restaurant/:id)
 ****/
 export const getRestaurant = asyncError(async (req, res, next) => {
     const restaurant = await RestModel.findById(req.params.id)
-    if (!restaurant)    
+    if (!restaurant)
         return next(new ErrorHandler("Restaurant not found", 404))
-    
+
     res.status(200).json({
-        success: true,  
+        success: true,
         restaurant
     })
 })
@@ -260,14 +262,14 @@ export const restaurantForgotPassword = asyncError(async (req, res, next) => {
         email: restaurant.email,
         subject: "Restaurant Password Recovery",
         message
-    })  
+    })
     if (!result || result.status !== "Success")
         return next(new ErrorHandler("Failed to send reset password email", 500))
     res.status(200).json({
         success: true,
         message: `Reset password link has been sent to ${restaurant.email}`
     })
-})  
+})
 
 
 /****
@@ -296,3 +298,35 @@ export const restaurantResetPassword = asyncError(async (req, res, next) => {
         message: "Password has been reset successfully"
     })
 })
+
+
+/****
+add restaurant review - (/api/restaurant/review/add/:id)
+****/
+export const addRestaurantReview = asyncError(async (req, res, next) => {
+    const { rating, comment } = req.body
+    const restaurantId = req.params.id
+    const userId = req.restaurant._id
+    const restaurant = await RestModel.findById(restaurantId)
+    if (!restaurant)
+        return next(new ErrorHandler("Restaurant not found", 404))
+    const review = await ReviewModel.create({
+        reviewedEntityId: restaurantId,
+        review_for_model: 'restaurant',
+        rating,
+        comment,
+        userId
+    })
+
+    if (!review)
+        return next(new ErrorHandler("Failed to add review, please try again later", 500))
+    res.status(201).json({
+        success: true,
+        message: "Review added successfully",
+        review
+    })
+})
+
+
+
+

@@ -11,7 +11,7 @@ const apiFeature = new ApiFeatures()
 Register delivery person - (/api/deliveryperson/auth/register)
 ****/
 export const registerDeliveryPerson = asyncError(async (req, res, next) => {
-    const { name, email, phone, password, vehicleType } = req.body;
+    const { name, email, phone, password, vehicleType ,vehicleNumber} = req.body
 
     // Check if delivery person already exists
     const existingDeliveryPerson = await DeliveryModel.findOne({
@@ -21,7 +21,7 @@ export const registerDeliveryPerson = asyncError(async (req, res, next) => {
         return next(new ErrorHandler("Delivery person already exists with this email or phone", 400))
     // Create new delivery person
     const deliveryPerson = await DeliveryModel.create({
-        name, email, phone, password, vehicleType
+        name, email, phone, password, vehicleType,vehicleNumber
     })
     if (!deliveryPerson)
         return next(new ErrorHandler("Failed to create delivery person", 500))
@@ -148,7 +148,7 @@ Update delivery person profile - (/api/deliveryperson/profile/update)
 ****/
 export const updateDeliveryPersonProfile = asyncError(async (req, res, next) => {
     const { name, phone, vehicleType, isAvailable } = req.body
-    const deliveryPerson = await DeliveryModel.findById(req.delivery_person._id)
+    const deliveryPerson = await DeliveryModel.findById(req.deliveryPerson._id)
 
     if (!deliveryPerson)
         return next(new ErrorHandler("Delivery person not found", 404))
@@ -164,7 +164,7 @@ export const updateDeliveryPersonProfile = asyncError(async (req, res, next) => 
     res.status(200).json({
         success: true,
         message: "Delivery person profile updated successfully",
-        delivery_person: deliveryPerson
+        deliveryPerson
     })
 })
 
@@ -173,7 +173,7 @@ Change delivery person password - (/api/deliveryperson/auth/changepassword)
 ****/
 export const changeDeliveryPersonPassword = asyncError(async (req, res, next) => {
     const { oldPassword, newPassword } = req.body
-    const deliveryPerson = await DeliveryModel.findById(req.delivery_person._id).select('+password')
+    const deliveryPerson = await DeliveryModel.findById(req.deliveryPerson._id).select('+password')
 
     if (!deliveryPerson)
         return next(new ErrorHandler("Delivery person not found", 404))
@@ -195,10 +195,10 @@ export const changeDeliveryPersonPassword = asyncError(async (req, res, next) =>
 
 
 /****
-Get delivery person profile - (/api/deliveryperson/profile)
+Get delivery person profile - (/api/deliveryperson/auth/getme)
 ****/
 export const getDeliveryPersonProfile = asyncError(async (req, res, next) => {  
-    const deliveryPerson = await DeliveryModel.findById(req.delivery_person._id)
+    const deliveryPerson = await DeliveryModel.findById(req.deliveryPerson._id)
 
     if (!deliveryPerson)
         return next(new ErrorHandler("Delivery person not found", 404))
@@ -209,13 +209,13 @@ export const getDeliveryPersonProfile = asyncError(async (req, res, next) => {
     res.status(200).json({
         success: true,
         message: "Delivery person profile retrieved successfully",
-        delivery_person: profile
+        deliveryPerson: profile
     })
 })
 
 
 /****
- Reset delivery person password - (/api/deliveryperson/auth/resetpassword/:token) 
+ Reset delivery person password - (/api/deliveryperson/auth/resetpassword/:resetToken) 
  ****/
 export const resetDeliveryPersonPassword = asyncError(async (req, res, next) => {
     const { token } = req.params
@@ -293,7 +293,7 @@ export const getAllDeliveryPersons = asyncError(async (req, res, next) => {
     res.status(200).json({
         success: true,
         message: "All delivery persons retrieved successfully",
-        delivery_persons: deliveryPersons
+     deliveryPersons
     })
 })
 
@@ -311,7 +311,7 @@ export const getDeliveryPersonById = asyncError(async (req, res, next) => {
     res.status(200).json({
         success: true,
         message: "Delivery person retrieved successfully",
-        delivery_person: profile
+        deliveryPerson: profile
     })
 })
 
@@ -352,7 +352,7 @@ Update delivery person coordinates - (/api/deliveryperson/track/updatecoordinate
 ****/
 export const updateDeliveryPersonCoordinates = asyncError(async (req, res, next) => {
     const { latitude, longitude } = req.body
-    const deliveryPerson = await DeliveryModel.findById(req.delivery_person._id)
+    const deliveryPerson = await DeliveryModel.findById(req.deliveryPerson._id)
 
     if (!deliveryPerson)
         return next(new ErrorHandler("Delivery person not found", 404))

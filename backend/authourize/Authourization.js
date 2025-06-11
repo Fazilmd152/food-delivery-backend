@@ -33,6 +33,17 @@ class Authorization {
         }
         next()
     }
+
+    deliveryPerson(req, res, next) {
+        const deliveryPerson = req.deliveryPerson
+        if (!deliveryPerson) {
+            return next(new ErrorHandler("Unauthorized: Delivery Person access only", 403))
+        }
+        if (deliveryPerson.role !== "delivery_person") {
+            return next(new ErrorHandler("You are not authorized to access this.", 403))
+        }
+        next()
+    }
 }
 
 export default Authorization

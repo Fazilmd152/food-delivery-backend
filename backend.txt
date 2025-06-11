@@ -83,10 +83,14 @@ Menu and Food route:
 ~ remove existing food from menu(put)-completed (/api/restaurant/menu/food/remove/:menuId/:foodId)
 
  
-delivery personal route: yet to create
+delivery personal route:completed
 
 Order route: yet to create
 
 notifications route: yet to create
 
 payment route: yet to create
+
+bugs:
+in rating filter there is a bug
+keep otp andotp verification code into sepereate for reuse
