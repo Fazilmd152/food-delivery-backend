@@ -4,13 +4,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon node ./backend/index.js"
+    "start": "nodemon node ./backend/index.js",
+    "seeder": "node backEnd/utils/seeder.js"
   },
   "type": "module",
   "author": "mohamed fazil",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "agenda": "^5.0.0",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

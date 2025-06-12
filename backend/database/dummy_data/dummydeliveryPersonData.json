@@ -1,0 +1,73 @@
+[
+    {
+  "name": "Ravi Kumar",
+  "phone": "9876543210",
+  "email": "ravi.kumar@example.com",
+  "password": "securePass123",
+  "profilePhoto": "https://example.com/images/ravi.jpg",
+  "address": {
+    "address": "123 MG Road",
+    "pinCode": "600001",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "country": "India"
+  },
+  "isAvailable": true,
+  "location": {
+    "type": "Point",
+    "coordinates": [80.2707, 13.0827]
+  },
+  "vehicleType": "bike",
+  "vehicleNumber": "TN01AB1234",
+  "vehicleDetails": "Black Bajaj Pulsar 150",
+  "drivingLicenseNo": "TNDL1234567890"
+},
+
+{
+  "name": "Samantha Das",
+  "phone": "9123456780",
+  "email": "samantha.das@example.com",
+  "password": "samanthaPass456",
+  "profilePhoto": "https://example.com/images/samantha.jpg",
+  "address": {
+    "address": "45 Park Street",
+    "pinCode": "700016",
+    "city": "Kolkata",
+    "state": "West Bengal",
+    "country": "India"
+  },
+  "isAvailable": false,
+  "location": {
+    "type": "Point",
+    "coordinates": [88.3639, 22.5726]
+  },
+  "vehicleType": "car",
+  "vehicleNumber": "WB02CD5678",
+  "vehicleDetails": "White Maruti Suzuki Swift",
+  "drivingLicenseNo": "WBDL7890456123"
+},
+
+{
+  "name": "Arun Mehta",
+  "phone": "9012345678",
+  "email": "arun.mehta@example.com",
+  "password": "arunSecure789",
+  "profilePhoto": "",
+  "address": {
+    "address": "17 Mission Road",
+    "pinCode": "560027",
+    "city": "Bangalore",
+    "state": "Karnataka",
+    "country": "India"
+  },
+  "isAvailable": true,
+  "location": {
+    "type": "Point",
+    "coordinates": [77.5946, 12.9716]
+  },
+  "vehicleType": "bicycle",
+  "vehicleNumber": "KA01BC9876",
+  "vehicleDetails": "Green Hero Sprint",
+  "drivingLicenseNo": "KADL4567891230"
+}
+]

@@ -108,7 +108,7 @@ const deliveryPersonSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        defaultValue: "delivery_person"
+        default: "delivery_person"
     },
     otp: {
         type: String,
