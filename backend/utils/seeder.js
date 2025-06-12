@@ -14,7 +14,7 @@ const models = [
   { model: RestModel, data: restaurantDummyData },
   { model: FoodModel, data: foodDummyData },
   { model: DeliveryPerson, data: deliveryPersonDummyData },
-];
+]
 
 async function seeder() {
   try {

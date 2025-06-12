@@ -70,7 +70,9 @@ import agenda from "../agenda/agenda.js"
 //   }
 // };
 
-
+/**** 
+create order - (/api/order/placeorder/:restaurantId)
+****/
 export const createOrder = asyncError(async (req, res, next) => {
     const userId = req.user.id
     const { restaurantId } = req.params
@@ -85,14 +87,14 @@ export const createOrder = asyncError(async (req, res, next) => {
         orderStatus,
     } = req.body
 
-    const food = await FoodModel.findById(foodId);
+    const food = await FoodModel.findById(foodId)
     if (!food)
-        return next(new ErrorHandler("Food not found", 401));
+        return next(new ErrorHandler("Food not found", 401))
 
-    const travelTime = 15; // Placeholder for now; should be calculated via map API
+    const travelTime = 15 // Placeholder for now; should be calculated via map API
     const preparationTime = food.preparationTime;
 
-    const estimatedDeliveryTime = new Date(Date.now() + (preparationTime + travelTime) * 60 * 1000);
+    const estimatedDeliveryTime = new Date(Date.now() + (preparationTime + travelTime) * 60 * 1000)
 
     const order = await OrderModel.create({
         userId,
@@ -106,6 +108,7 @@ export const createOrder = asyncError(async (req, res, next) => {
         paymentStatus,
         orderStatus,
         estimatedDeliveryTime,
+        liveOrder: true
     })
 
     if (!order)
@@ -123,7 +126,7 @@ export const createOrder = asyncError(async (req, res, next) => {
     await agenda.schedule(notifyTime, 'notifyPreparationTimeOver', {
         orderId: order._id.toString(),
         restaurantId,
-    });
+    })
 
     // Schedule delivery boy assignment just before order is ready (7 mins before)
     const assignTime = new Date(Date.now() + (preparationTime - 7) * 60 * 1000);
@@ -140,23 +143,48 @@ export const createOrder = asyncError(async (req, res, next) => {
 })
 
 
-
 export const rejectOrder = asyncHandler(async (req, res, next) => {
-  const { orderId } = req.params;
-  const deliveryBoyId = req.user.id; // Authenticated delivery boy
+    const { orderId } = req.params
+    const deliveryBoyId = req.user.id // Authenticated delivery boy
 
-  const order = await OrderModel.findById(orderId);
-  if (!order) return next(new ErrorHandler("Order not found", 404));
+    const order = await OrderModel.findById(orderId);
+    if (!order) return next(new ErrorHandler("Order not found", 404));
 
-  order.deliveryRejections.push(deliveryBoyId);
-  order.orderStatus = 'rejected_by_delivery';
-  await order.save();
+    order.deliveryRejections.push(deliveryBoyId);
+    order.orderStatus = 'rejected_by_delivery';
+    await order.save()
 
-  await agenda.now('assignDeliveryBoy', { orderId });
+    await agenda.now('assignDeliveryBoy', { orderId })
 
-  res.status(200).json({ success: true, message: "Order rejected and reassigning..." });
+    res.status(200).json({ success: true, message: "Order rejected and reassigning..." })
 })
 
-export const updateOrder=asyncError(async (req,res,next)=>{
-  
+export const updateOrderByRestaurant = asyncError(async (req, res, next) => {
+    // 'accepted',
+    //         'preparing',
+    //         'ready_for_pickup'
+    const orderId = req.params
+    const { orderStatus } = req.body
+    await OrderModel.findByIdAndUpdate(orderId, { orderStatus })
 })
+
+
+export const updateOrderByDeliveryPerson = asyncError(async (req, res, next) => {
+    // 'picked_up',
+    // 'on_the_way',
+    // 'delivered'
+    // 'awaiting_delivery',
+    // 'rejected_by_delivery',
+    const orderId = req.params
+    const { orderStatus } = req.body
+    await OrderModel.findByIdAndUpdate(orderId, { orderStatus })
+})
+
+
+export const updateDeliveryPersonTracking = asyncError(async (req, res, next) => {
+    const { latitude, longitude } = req.body
+    const orderId = req.params
+    await OrderModel.findByIdAndUpdate(orderId, { deliveryTracking: { currentLocation: { latitude, longitude } } })
+})
+
+

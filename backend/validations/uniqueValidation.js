@@ -381,6 +381,37 @@ class UniqueValidation {
             next()
         }
     ]
+
+    placeOrderVal = [
+        body('foodId')
+            .not().isEmpty().withMessage('Food ID is required')
+            .isMongoId().withMessage('Invalid Food ID'),
+        body('quantity')
+            .not().isEmpty().withMessage('Quantity is required')
+            .isInt({ min: 1 }).withMessage('Quantity must be a positive integer'),
+        body('price')
+            .not().isEmpty().withMessage('Price is required')
+            .isNumeric({ min: 0 }).withMessage('Price must be a non-negative number'),
+        body('totalAmount')
+            .not().isEmpty().withMessage('Total Amount is required')
+            .isFloat({ min: 0 }).withMessage('Total Amount must be a non-negative number'),
+        body('deliveryAddress.street')
+            .not().isEmpty().withMessage('Street is required'),
+        body('deliveryAddress.city')
+            .not().isEmpty().withMessage('City is required'),
+        body('deliveryAddress.pincode')
+            .not().isEmpty().withMessage('Pincode is required')
+            .isLength({ min: 6, max: 6 }).withMessage('Pincode must be 6 digits'),
+        body('deliveryAddress.coordinates.lat')
+            .not().isEmpty().withMessage('Latitude is required')
+            .isFloat().withMessage('Latitude must be a number'),
+        body('deliveryAddress.coordinates.lng')
+            .not().isEmpty().withMessage('Longitude is required')
+            .isFloat().withMessage('Longitude must be a number'),
+        body('paymentMethod')
+            .not().isEmpty().withMessage('Payment method is required')
+            .isIn(['cod', 'online']).withMessage('Invalid payment method'),
+    ]
 }
 
 export default UniqueValidation

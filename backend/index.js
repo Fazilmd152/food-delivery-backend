@@ -6,6 +6,7 @@ import userRoute from "./routes/userRoute.js"
 import restaurantRoute from "./routes/restaurantRoute.js"
 import menuAndFoodRoute from "./routes/menuAndfoodRoute.js"
 import deliveryPersonRoute from "./routes/deliveryPersonRoute.js"
+import orderRoute from "./routes/orderRoutes.js"
 import connectDb from './database/connectDb.js'
 import cookieParser from 'cookie-parser'
 config()
@@ -21,6 +22,7 @@ app.use("/api/user",userRoute)
 app.use("/api/restaurant",restaurantRoute)
 app.use("/api/restaurant/menu",menuAndFoodRoute)
 app.use("/api/deliveryperson",deliveryPersonRoute)
+app.use("/api/order",orderRoute)
 
 
 

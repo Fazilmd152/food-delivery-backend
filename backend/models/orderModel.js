@@ -72,8 +72,8 @@ const orderSchema = new mongoose.Schema({
     },
     deliveryTracking: {
         currentLocation: {
-            lat: Number,
-            lng: Number
+            latitude: Number,
+            longitude: Number
         },
         updatedAt: Date
     },
@@ -87,6 +87,10 @@ const orderSchema = new mongoose.Schema({
         },
         deliveredAt: Date,
         cancelledAt: Date
+    },
+    liveOrder:{
+        type:Boolean,
+        default:false
     }
 }, { timestamps: true })
 
