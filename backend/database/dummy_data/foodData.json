@@ -1,0 +1,72 @@
+[
+  {
+    "restaurantId": "60f7c0b8d3e2c4a1a8b12345",
+    "name": "Paneer Butter Masala",
+    "description": "Creamy tomato-based curry with tender paneer cubes.",
+    "price": 180,
+    "categories": ["Main Course", "Vegetarian"],
+    "image_url": ["https://example.com/images/paneer-butter-masala.jpg"],
+    "isAvailable": true,
+    "tags": ["Spicy", "North Indian", "Popular"],
+    "averageRating": 4.5,
+    "total_reviews": 230,
+    "preparationTime": 20,
+    "ingredients": ["Paneer", "Tomato", "Butter", "Cream", "Spices"]
+  },
+  {
+    "restaurantId": "60f7c0b8d3e2c4a1a8b12346",
+    "name": "Margherita Pizza",
+    "description": "Classic Italian pizza with mozzarella, basil and tomato sauce.",
+    "price": 250,
+    "categories": ["Main Course", "Italian"],
+    "image_url": ["https://example.com/images/margherita-pizza.jpg"],
+    "isAvailable": true,
+    "tags": ["Vegetarian", "Cheesy", "Thin Crust"],
+    "averageRating": 4.2,
+    "total_reviews": 310,
+    "preparationTime": 18,
+    "ingredients": ["Mozzarella", "Tomato Sauce", "Basil", "Olive Oil"]
+  },
+  {
+    "restaurantId": "60f7c0b8d3e2c4a1a8b12347",
+    "name": "Butter Chicken",
+    "description": "Grilled chicken pieces in creamy spiced tomato gravy.",
+    "price": 220,
+    "categories": ["Main Course", "Non-Vegetarian"],
+    "image_url": ["https://example.com/images/butter-chicken.jpg"],
+    "isAvailable": true,
+    "tags": ["North Indian", "Creamy", "Non-Veg"],
+    "averageRating": 4.7,
+    "total_reviews": 410,
+    "preparationTime": 25,
+    "ingredients": ["Chicken", "Butter", "Tomato", "Cream", "Spices"]
+  },
+  {
+    "restaurantId": "60f7c0b8d3e2c4a1a8b12348",
+    "name": "Gulab Jamun",
+    "description": "Deep-fried milk solids soaked in rose-flavored sugar syrup.",
+    "price": 90,
+    "categories": ["Dessert", "Sweet"],
+    "image_url": ["https://example.com/images/gulab-jamun.jpg"],
+    "isAvailable": true,
+    "tags": ["Sweet", "Classic", "Festive"],
+    "averageRating": 4.8,
+    "total_reviews": 150,
+    "preparationTime": 10,
+    "ingredients": ["Khoya", "Sugar", "Cardamom", "Rose Water"]
+  },
+  {
+    "restaurantId": "60f7c0b8d3e2c4a1a8b12349",
+    "name": "Veg Hakka Noodles",
+    "description": "Stir-fried noodles with vegetables and Asian sauces.",
+    "price": 160,
+    "categories": ["Main Course", "Chinese"],
+    "image_url": ["https://example.com/images/veg-hakka-noodles.jpg"],
+    "isAvailable": true,
+    "tags": ["Spicy", "Vegan", "Street Food"],
+    "averageRating": 4.3,
+    "total_reviews": 280,
+    "preparationTime": 15,
+    "ingredients": ["Noodles", "Capsicum", "Onion", "Soy Sauce", "Garlic"]
+  }
+]

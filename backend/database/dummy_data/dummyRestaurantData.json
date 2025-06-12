@@ -1,27 +1,145 @@
-{
-  "name": "Spicy Bites",
-  "email": "spicybites@example.com",
-  "password": "securepass123",
-  "image_url": {
-    "profile_img": "https://example.com/images/spicybites-profile.jpg",
-    "cover_img": "https://example.com/images/spicybites-cover.jpg",
-    "other_images_urls": [
-      "https://example.com/images/food1.jpg",
-      "https://example.com/images/food2.jpg"
-    ]
+[
+  {
+    "name": "Madurai Biryani Center",
+    "email": "maduraibiryani@example.com",
+    "password": "biryani@123",
+    "image_url": {
+      "profile_img": "https://example.com/images/madurai-profile.jpg",
+      "cover_img": "https://example.com/images/madurai-cover.jpg",
+      "other_images_urls": [
+        "https://example.com/images/madurai1.jpg",
+        "https://example.com/images/madurai2.jpg"
+      ]
+    },
+    "address": {
+      "address": "45 Bypass Road",
+      "pinCode": "625016",
+      "city": "Madurai",
+      "state": "Tamil Nadu",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [78.1198, 9.9252]
+    },
+    "phone": "9845012345",
+    "is_open": true,
+    "opening_time": "10:00 AM",
+    "closing_time": "11:00 PM",
+    "averageRating": 4.5,
+    "total_reviews": 540,
+    "categories": ["biryani specials", "madurai style", "non-vegetarian"]
   },
-  "address": "123 Main Street, Agra, Uttar Pradesh, India",
-  "location": {
-    "type": "Point",
-    "coordinates": [78.0421, 27.1751] 
+  {
+    "name": "Veggie Delight",
+    "email": "veggiedelight@example.com",
+    "password": "veggie@456",
+    "image_url": {
+      "profile_img": "https://example.com/images/veggie-profile.jpg",
+      "cover_img": "https://example.com/images/veggie-cover.jpg",
+      "other_images_urls": []
+    },
+    "address": {
+      "address": "12 Gandhi Street",
+      "pinCode": "600042",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [80.2707, 13.0827]
+    },
+    "phone": "9876543210",
+    "is_open": true,
+    "opening_time": "08:00 AM",
+    "closing_time": "10:00 PM",
+    "averageRating": 4.3,
+    "total_reviews": 410,
+    "categories": ["vegetarian", "tiffin items", "dosa varieties"]
   },
-  "contact_number": "+91 9876543210",
-  "is_open": true,
-  "opening_time": "09:00 AM",
-  "closing_time": "11:00 PM",
-  "delivery_time_minutes": 25,
-  "delivery_fee": 30,
-  "average_rating": 4.5,
-  "total_reviews": 120,
-  "role": "restaurant"
-}
+  {
+    "name": "Kolkata Street Eats",
+    "email": "kolkatastreet@example.com",
+    "password": "kolkata123",
+    "image_url": {
+      "profile_img": "https://example.com/images/kolkata-profile.jpg",
+      "cover_img": "https://example.com/images/kolkata-cover.jpg",
+      "other_images_urls": ["https://example.com/images/puchka.jpg"]
+    },
+    "address": {
+      "address": "3 Esplanade Road",
+      "pinCode": "700001",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [88.3639, 22.5726]
+    },
+    "phone": "9831012345",
+    "is_open": false,
+    "opening_time": "11:00 AM",
+    "closing_time": "09:00 PM",
+    "averageRating": 4.7,
+    "total_reviews": 620,
+    "categories": ["street food", "bengali cuisine", "tea kadai snacks"]
+  },
+  {
+    "name": "The Shawarma Spot",
+    "email": "shawarmaspot@example.com",
+    "password": "shawarma789",
+    "image_url": {
+      "profile_img": "https://example.com/images/shawarma-profile.jpg",
+      "cover_img": "https://example.com/images/shawarma-cover.jpg",
+      "other_images_urls": []
+    },
+    "address": {
+      "address": "77 Beach Road",
+      "pinCode": "600005",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [80.2877, 13.0581]
+    },
+    "phone": "9999988888",
+    "is_open": true,
+    "opening_time": "03:00 PM",
+    "closing_time": "12:00 AM",
+    "averageRating": 4.6,
+    "total_reviews": 380,
+    "categories": ["shawarma", "middle eastern", "fast food"]
+  },
+  {
+    "name": "Sweets & Chaats",
+    "email": "sweetschaats@example.com",
+    "password": "sweets321",
+    "image_url": {
+      "profile_img": "https://example.com/images/sweets-profile.jpg",
+      "cover_img": "https://example.com/images/sweets-cover.jpg",
+      "other_images_urls": ["https://example.com/images/rasgulla.jpg"]
+    },
+    "address": {
+      "address": "56 MG Road",
+      "pinCode": "560001",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [77.5946, 12.9716]
+    },
+    "phone": "8123456789",
+    "is_open": true,
+    "opening_time": "09:00 AM",
+    "closing_time": "10:00 PM",
+    "averageRating": 4.4,
+    "total_reviews": 270,
+    "categories": ["sweets & desserts", "street food", "north indian"]
+  }
+]

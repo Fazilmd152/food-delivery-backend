@@ -73,7 +73,7 @@ restaurant  route:
 
 
 Menu and Food route:
-~ Add menu (post)  restaurant access -completed (/restaurant/menu/add) [restaurantId, description, type] 
+~ Add menu (post)  restaurant access -completed (/restaurant/menu/add:restaurantId) [restaurantId, description, type] 
 ~ Add food (post) restaurant access  -completed (/api/restaurant/menu/food/add/:menuId) [name, description, price, [categories], image_url, tags, [ingredients]] 
 ~ Get all menu (get)  admin access   -completed (/api/restaurant/menu/all)  
 ~ Get single menu (get)              -completed (/api/restaurant/menu/:menuId)  

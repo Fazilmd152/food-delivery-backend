@@ -6,10 +6,11 @@ import MenuAndFoodApiFeatures from "../utils/MenuandFoodApiFeatures.js";
 
 
 /**** 
-Add a new menu - (/api/restaurant/menu/add)
+Add a new menu - (/api/restaurant/menu/add/:restaurantId)
 ****/
 export const addMenu = asyncError(async (req, res, next) => {
-    const { restaurantId, description, type } = req.body;
+    const {  description, type } = req.body
+    const {restaurantId}=req.params
     const menu = await MenuModel.create({
         restaurantId,
         description,
