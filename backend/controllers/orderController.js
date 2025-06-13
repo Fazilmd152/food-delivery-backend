@@ -1,10 +1,11 @@
-import OrderModel from "../models/orderModel.js"
+import OrderModel from "../models/newOrderModel.js"
 import DeliveryPersonModel from "../models/deliveryPersonModel.js"
 import asyncError from '../utils/asyncError.js'
 import FoodModel from "../models/foodModel.js"
 import ErrorHandler from '../utils/ErrorHandler.js'
 import NotificationModel from "../models/notificationModel.js"
 import agenda from "../agenda/agenda.js"
+import { AccessDeniedError } from "sequelize"
 
 
 
@@ -77,49 +78,46 @@ export const createOrder = asyncError(async (req, res, next) => {
     const userId = req.user.id
     const { restaurantId } = req.params
     const {
-        foodId,
-        quantity,
-        price,
+        items,
         totalAmount,
         deliveryAddress,
-        paymentMethod,
-        paymentStatus,
-        orderStatus,
+        restaurantLocation,
     } = req.body
 
-    const food = await FoodModel.findById(foodId)
-    if (!food)
-        return next(new ErrorHandler("Food not found", 401))
 
-    const travelTime = 15 // Placeholder for now; should be calculated via map API
-    const preparationTime = food.preparationTime;
+    let preparationTime = 0
+    //checking all the foods are avialible
+    for (const item of items) {
+        const food = await FoodModel.findById(item.foodId)
+        if (!food) return next(new ErrorHandler(`Food not found with this id ${item.foodId}`, 401));
+        preparationTime += food.preparationTime
+    }
+
+    const travelTime = 15 // Placeholder for now should be calculated via map API
+
 
     const estimatedDeliveryTime = new Date(Date.now() + (preparationTime + travelTime) * 60 * 1000)
 
     const order = await OrderModel.create({
         userId,
         restaurantId,
-        foodId,
-        quantity,
-        price,
+        items,
         totalAmount,
         deliveryAddress,
-        paymentMethod,
-        paymentStatus,
-        orderStatus,
-        estimatedDeliveryTime,
-        liveOrder: true
+        restaurantLocation,
+        estimatedDeliveryTime
     })
 
     if (!order)
         return next(new ErrorHandler("Order creation failed", 401));
 
-    // Notify restaurant immediately
+    // Notify restaurant immediately -yet to add push notification
     await NotificationModel.create({
         restaurantId,
         message: "Order assigned",
     })
-
+    //socket code 
+    socket.to(`restaurantId${restaurantId}`).emit('newOrder', order)
     // Schedule a job to trigger when preparation time ends
     const notifyTime = new Date(Date.now() + preparationTime * 60 * 1000)
 
@@ -129,11 +127,11 @@ export const createOrder = asyncError(async (req, res, next) => {
     })
 
     // Schedule delivery boy assignment just before order is ready (7 mins before)
-    const assignTime = new Date(Date.now() + (preparationTime - 7) * 60 * 1000);
-    await agenda.schedule(assignTime, 'assignDeliveryBoy', {
-        orderId: order._id.toString(),
-        coordinates: deliveryAddress.coordinates, // { lat, lng }
-    })
+    // const assignTime = new Date(Date.now() + (preparationTime - 2) * 60 * 1000);
+    // await agenda.schedule(assignTime, 'assignDeliveryBoy', {
+    //     orderId: order._id.toString(),
+    //     coordinates: deliveryAddress.coordinates, // { lat, lng }
+    // })
 
     res.status(201).json({
         success: true,
@@ -142,7 +140,9 @@ export const createOrder = asyncError(async (req, res, next) => {
     })
 })
 
-
+/****
+update order by restaurant - (/api/order/updatebyrestaurant/:orderId)
+****/
 export const rejectOrder = asyncHandler(async (req, res, next) => {
     const { orderId } = req.params
     const deliveryBoyId = req.user.id // Authenticated delivery boy
@@ -159,13 +159,42 @@ export const rejectOrder = asyncHandler(async (req, res, next) => {
     res.status(200).json({ success: true, message: "Order rejected and reassigning..." })
 })
 
+
 export const updateOrderByRestaurant = asyncError(async (req, res, next) => {
-    // 'accepted',
-    //         'preparing',
-    //         'ready_for_pickup'
-    const orderId = req.params
-    const { orderStatus } = req.body
-    await OrderModel.findByIdAndUpdate(orderId, { orderStatus })
+    const { orderId } = req.params;
+    const { status, extendedTime } = req.body // extendedTime in minutes
+
+    const order = await OrderModel.findById(orderId)
+    if (!order) {
+        return res.status(404).json({ success: false, message: 'Order not found' })
+    }
+
+    // Update status if provided
+    if (status) {
+        order.status = status
+    }
+
+    // Update estimated delivery time if extendedTime is provided
+    if (extendedTime) {
+        const currentEstimate = new Date(order.estimatedDeliveryTime || Date.now())
+        const extendedEstimate = new Date(currentEstimate.getTime() + extendedTime * 60000)
+        order.estimatedDeliveryTime = extendedEstimate
+    }
+
+    await order.save()
+
+    // Broadcast the updated order to user and restaurant rooms
+    socket.to(`userId${order.userId}`).emit('updatedOrder', order)
+    socket.to(`restaurantId${order.restaurantId}`).emit('updatedOrder', order)
+
+    // If the order is ready, schedule assignment
+    if (status === 'ready') {
+        await agenda.schedule(new Date(), 'assignDeliveryBoy', {
+            orderId: order._id.toString(),
+            coordinates: order.deliveryAddress.coordinates, // should exist
+        })
+    }
+    res.status(200).json({ success: true, order })
 })
 
 

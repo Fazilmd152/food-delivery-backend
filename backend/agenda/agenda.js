@@ -7,15 +7,15 @@ const agenda = new Agenda({ db: { address: process.env.MONGO_URI, collection: 'a
 
 // Define job to assign delivery boy
 agenda.define('assignDeliveryBoy', async (job) => {
-  const { orderId } = job.attrs.data;
+  const { orderId } = job.attrs.data
   const order = await OrderModel.findById(orderId)
 
-  if (!order || order.orderStatus === 'accepted') return;
+  if (!order || !order.orderStatus === 'ready'||!order.orderStatus==='awaiting-delivery') return
 
   // Prevent reassigning same delivery person
-  const excludeIds = order.deliveryRejections.map(id => id.toString());
+  const excludeIds = order.deliveryRejections.map(id => id.toString())
 
-  const { lng, lat } = order.deliveryAddress.coordinates;
+  const { lng, lat } = order.deliveryAddress.coordinates
 
   const nextDeliveryBoy = await DeliveryPersonModel.findOne({
     _id: { $nin: excludeIds },
@@ -53,23 +53,23 @@ agenda.define('assignDeliveryBoy', async (job) => {
 
 
 agenda.define('checkDeliveryAcceptance', async (job) => {
-  const { orderId, deliveryBoyId } = job.attrs.data;
-  const order = await OrderModel.findById(orderId);
+  const { orderId, deliveryBoyId } = job.attrs.data
+  const order = await OrderModel.findById(orderId)
 
-  if (!order || order.orderStatus === 'accepted') return;
+  if (!order || order.orderStatus === 'accepted') return
 
   // Delivery not accepted
-  order.deliveryRejections.push(deliveryBoyId);
-  order.orderStatus = 'rejected_by_delivery';
-  await order.save();
+  order.deliveryRejections.push(deliveryBoyId)
+  order.orderStatus = 'rejected_by_delivery'
+  await order.save()
 
-  console.log(`❌ Delivery person ${deliveryBoyId} rejected order ${orderId}`);
+  console.log(`Delivery person ${deliveryBoyId} rejected order ${orderId}`)
 
   // Retry if attempts < 5
   if (order.deliveryAttemptCount < 5) {
-    await agenda.now('assignDeliveryBoy', { orderId });
+    await agenda.now('assignDeliveryBoy', { orderId })
   } else {
-    console.log(`🚫 Max delivery assignment attempts reached for order ${orderId}`);
+    console.log(` Max delivery assignment attempts reached for order ${orderId}`)
   }
 })
 

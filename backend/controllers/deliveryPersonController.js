@@ -364,10 +364,11 @@ export const updateDeliveryPersonCoordinates = asyncError(async (req, res, next)
     }
     await deliveryPerson.save()
 
-    res.status(200).json({
-        success: true,
-        message: "Delivery person coordinates updated successfully",
-        coordinates: deliveryPerson.coordinates
-    })
+    // res.status(200).json({
+    //     success: true,
+    //     message: "Delivery person coordinates updated successfully",
+    //     coordinates: deliveryPerson.coordinates
+    // })
+    socket.emit('deliveryBoyCoordinates',deliveryPerson.coordinates)
 })
 

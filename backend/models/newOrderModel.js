@@ -5,7 +5,7 @@ const orderSchema = new mongoose.Schema({
     type: Number, // From MySQL – Sequelize auto-increment ID
     required: true
   },
-  restaurant: {
+  restaurantId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'restaurant',
     required: true
@@ -42,7 +42,6 @@ const orderSchema = new mongoose.Schema({
   restaurantLocation: {
     type: {
       type: String,
-      enum: ['Point'],
       default: 'Point'
     },
     coordinates: {
@@ -58,6 +57,9 @@ const orderSchema = new mongoose.Schema({
   liveLocation: {
     type: [Number], // [longitude, latitude]
     default: [0, 0]
+  },
+  estimatedDeliveryTime: {
+    type: Date
   },
   status: {
     type: String,

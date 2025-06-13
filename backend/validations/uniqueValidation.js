@@ -412,6 +412,25 @@ class UniqueValidation {
             .not().isEmpty().withMessage('Payment method is required')
             .isIn(['cod', 'online']).withMessage('Invalid payment method'),
     ]
+
+    orderUpdatedByRestaurntVal = [
+        body('status')
+            .optional()
+            .isIn(['preparing', 'ready'])
+            .withMessage("Status must be either 'preparing' or 'ready'"),
+        body('extendedTime')
+            .optional()
+            .isInt({ min: 1 })
+            .withMessage("Extended time must be a positive number (in minutes)"),
+        (req, res, next) => {
+            const error = validationResult(req)
+            if (!error.isEmpty()) {
+                const [err] = error.array()
+                return next(new ErrorHandler(err.msg, 400))
+            }
+            next()
+        }
+    ]
 }
 
 export default UniqueValidation
